@@ -1,4 +1,4 @@
-from client_openMateo import getLocation
+from client_openMateo import getLocation, getWeather
 
 
 #Buscar cidade
@@ -11,15 +11,32 @@ def searchCity():
     print(f"Latitude: {city_found.latitude}°")
     print(f"Longitude: {city_found.longitude}°")
 
-    #Retorno para o menu
-    print("\n")
-    menu()
+
+
+
+
+#Consultar clima atual
+def consultWeather():
+    city = input("Digite o nome da cidade: ")
+    weather = getWeather(city)
+
+    print(f"\n{city} - Clima Atual")
+    print(f"Temperatura: {weather.temperature_2m} °C")
+    print(f"Sensação Térmica: {weather.apparent_temperature} °C")
+    print(f"Umidade: {weather.relative_humidity_2m}%")
+    print(f"Velocidade do Vento: {weather.wind_speed_10m} km/h")
+
+
+
+
+
 
 
 #Início do projeto
 def menu():
     print("\n===WeatherHub===")
     print("1. Buscar Cidade")
+    print("2. Consultar clima atual")
     print("0. Sair")
     option = input()
 
@@ -36,8 +53,13 @@ def menu():
     match option:
         case 1:
             searchCity()
+            menu()
+        case 2:
+            consultWeather()
+            menu()
         case 0:
             print("Até mais...\n")
+            exit()
 
         case _:
             print("Opção inválida")
