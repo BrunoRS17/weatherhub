@@ -6,10 +6,14 @@ def searchCity():
     city = input("Digite o nome da cidade: ")
     city_found = getLocation(city)
 
-    #Exibindo dados da cidade
-    print(f"\n{city_found.name} - {city_found.country}")
-    print(f"Latitude: {city_found.latitude}°")
-    print(f"Longitude: {city_found.longitude}°")
+    if (not city_found):
+        print(f"\nCidade {city} não foi encontrada - tente novamente")
+        
+    else:
+        #Exibindo dados da cidade
+        print(f"\n{city_found.name} - {city_found.country}")
+        print(f"Latitude: {city_found.latitude}°")
+        print(f"Longitude: {city_found.longitude}°")
 
 
 
@@ -20,11 +24,16 @@ def consultWeather():
     city = input("Digite o nome da cidade: ")
     weather = getWeather(city)
 
-    print(f"\n{city} - Clima Atual")
-    print(f"Temperatura: {weather.temperature_2m} °C")
-    print(f"Sensação Térmica: {weather.apparent_temperature} °C")
-    print(f"Umidade: {weather.relative_humidity_2m}%")
-    print(f"Velocidade do Vento: {weather.wind_speed_10m} km/h")
+    if (not weather):
+        print(f"\nClima da cidade {city} não encontrado")
+
+
+    else:
+        print(f"\n{city} - Clima Atual")
+        print(f"Temperatura: {weather.temperature_2m} °C")
+        print(f"Sensação Térmica: {weather.apparent_temperature} °C")
+        print(f"Umidade: {weather.relative_humidity_2m}%")
+        print(f"Velocidade do Vento: {weather.wind_speed_10m} km/h")
 
 
 
