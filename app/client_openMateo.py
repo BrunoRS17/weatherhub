@@ -1,5 +1,5 @@
 import requests
-from schemas import GeoCondingResponse, Location, Weather
+from schemas import GeoCondingResponse, Location, Weather, DailyForecast
 
 
 #Busca informações da cidade
@@ -49,6 +49,40 @@ def getWeather(city: str) -> Weather:
         response.raise_for_status()
         data = response.json()
         return Weather.model_validate(data.get("current")) if data.get("current") else None
+    
+    
+    except requests.exceptions.HTTPError as error_http:
+        print(f"Erro na API: {error_http}")
+        exit()
+
+    except requests.exceptions.RequestException as erro_conexao:
+        print(f"Falha de rede ou tempo esgotado: {erro_conexao}")
+        exit()
+
+
+
+
+#Busca previsão dos próximos 7 dias
+def getDailyForecast(city: str) -> DailyForecast:
+    location = getLocation(city)
+    if (not location):
+        return None
+
+    url = "https://api.open-meteo.com/v1/forecast"
+    headers = {"Accept": "application/json"}
+    params = {
+        "latitude": location.latitude,
+        "longitude": location.longitude,
+        "daily": "temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum,precipitation_probability_max",
+        "forecast_days": 7
+    }
+
+
+    try:
+        response = requests.get(url, headers=headers, params=params, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        return DailyForecast.model_validate(data.get("daily"))
     
     
     except requests.exceptions.HTTPError as error_http:

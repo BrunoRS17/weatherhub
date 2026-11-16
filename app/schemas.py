@@ -21,3 +21,13 @@ class Weather(BaseModel):
     relative_humidity_2m: float
     apparent_temperature: float
     wind_speed_10m: float
+
+
+#Previsão dos próximos dias
+class DailyForecast(BaseModel):
+    time: list[str]
+    temperature_2m_max: list[float]
+    temperature_2m_min: list[float]
+    wind_speed_10m_max: list[float]
+    precipitation_sum: list[float]
+    precipitation_probability_max: list[float]
